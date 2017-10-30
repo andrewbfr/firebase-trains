@@ -2,12 +2,60 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Railroaded</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 <body>
-	
+	<div class="container"><!-- main div opening-->
+<!-- jumbotron -->
+		<div class="container">
+			<div class="row">
+				<div class="jumbotron text-center" id="jt-color">
+				  <h1>Anytime is Train Time</h1>
+				  <p>Chitty-Chitty Bang-Bang</p>
+				</div>
+			</div>
+		</div> <!-- jumbotron close-->
+		
+<!--displayed schedules-->
+		<div class="container">
+			<div class="row">
+				<div class="panel panel-default" id="correct-border">
+				  	<div class="panel-heading" id="bg-color">Current Train Schedule
+				  	</div>
+ 					<div class="panel-body">
+   					 	<table id="train">
+						  <tr>
+						    <th class="row-btm-brdr">Train Name</th>
+						    <th class="row-btm-brdr">Destination</th>
+						    <th class="row-btm-brdr">Frequency (min)</th>
+						    <th class="row-btm-brdr">Next Arrival</th>
+						    <th class="row-btm-brdr">Minutes Away</th>
+						  </tr>
+						  
+						</table>
+  					</div>
+				</div>
+			</div>
+		</div>
+
+<!--train entries-->
+		<div class="container">
+			<div class="row">
+				<div class="panel panel-default" id="correct-border">
+				  	<div class="panel-heading" id="bg-color">Add Trains!
+				  	</div>
+ 					<div class="panel-body">
+   					 	Panel content
+  					</div>
+				</div>
+			</div>
+		</div>
+
+<!-- main div closing -->
+	</div>
+	<script type="text/javascript" src="assets/javascript/train.js"></script>
 </body>
 </html>

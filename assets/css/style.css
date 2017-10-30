@@ -1,0 +1,27 @@
+body {
+	background-color: #cff4ff;
+}
+
+#jt-color {
+	font-weight: 700;
+	background-color: #428bca;
+	border-color: #428bca;
+}
+
+#bg-color {
+	color: white;
+	background-color: #428bca;
+}
+
+#correct-border {
+	border-color: #428bca;
+}
+
+#train {
+	width:100%	
+}
+
+.row-btm-brdr{
+	padding-bottom: 1%;
+	border-bottom: 1px solid #848d95;
+}
