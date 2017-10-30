@@ -1,5 +1,5 @@
 body {
-	background-color: #cff4ff;
+	background-image: url("../images/intersection.png");
 }
 
 #jt-color {
@@ -24,4 +24,13 @@ body {
 .row-btm-brdr{
 	padding-bottom: 1%;
 	border-bottom: 1px solid #848d95;
+}
+
+input {
+	width: 100%;
+	margin-bottom: 1%;
+}
+/*work on these rounded input box corners
+*/.form-control {
+	border-radius: 3px;	
 }
