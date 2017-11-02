@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Railroaded</title>
+	<title>Promontory</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
@@ -47,29 +47,36 @@
 				<div class="panel panel-default" id="correct-border">
 				  	<div class="panel-heading" id="bg-color">Add Trains!
 				  	</div>
- 					<div class="panel-body">
- 						<form>
- 						<p>Train Name</p>
-	 						<input type="text">
- 						<p>Destination</p>
-	 						<input type="text">
- 						<p>Frequency(HH:mm - military time)</p>
-	 						<input type="text">
- 						<p>Frequency (min)</p>
-	 						<input type="text">
-	 					</form>
-  					</div>
+ 						<div class="panel-body">
+	 						<form>
+	 						<p>Train Name</p>
+		 						<input type="text" id="train-input">
+	 						<p>Destination</p>
+		 						<input type="text" id="destination-input">
+	 						<p>First Train Time(HH:mm - military time)</p>
+		 						<input type="text" id="military-input">
+	 						<p>Frequency (min)</p>
+		 						<input type="text" id="interval-input">
+		 					</form>
+		 					<button type="button" class="btn btn-success" id="add-train">Add Your Choo Choo</button>
+  						</div>
 				</div>
 			</div>
 		</div>
 
 <!-- main div closing -->
 	</div>
-	<script
+<!-- 	jquery -->	
+<script
   src="https://code.jquery.com/jquery-3.2.1.js"
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
   crossorigin="anonymous"></script>
-	<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
-	<script type="text/javascript" src="assets/javascript/train.js"></script>
+
+<!--   firebase JS -->	
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+
+<!-- 	app JS file -->	
+
+<script type="text/javascript" src="./assets/javascript/train.js"></script>
 </body>
 </html>
