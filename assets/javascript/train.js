@@ -1,5 +1,6 @@
 // maybe have a splash page that asks "is there anywhere you would like to go?" followed by an input field and another button that directs to the train schedule itself
-
+// figures were being posted to firebase, now it doesn't post those values, not sure why that left
+//make sure
  // Initialize Firebase
   var config = {
     apiKey: "AIzaSyBRfBqVGuVxWCHz5wbJyULjhIGUZ10xBMU",
