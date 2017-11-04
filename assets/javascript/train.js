@@ -53,7 +53,7 @@
 
 // // Retrieve new posts as they are added to our database
 
-userRef.on("child_added", function(snapshot, prevChildKey) {
+userRef.on("child_added", function(snapshot, prevChildKey) { 
   var newPost = snapshot.val();
   console.log(snapshot.val());
   console.log("Name: " + newPost.title);
@@ -62,11 +62,19 @@ userRef.on("child_added", function(snapshot, prevChildKey) {
   console.log("Departing every: " + newPost.frequency);
   console.log("Train Schedule added on: " + newPost.dateAdded);
   console.log("Previous Post ID: " + prevChildKey);
-   console.log(snapshot.val().train);
-      console.log(snapshot.val().locale);
-      console.log(snapshot.val().schedule);
-      console.log(snapshot.val().frequency);
-      console.log(snapshot.val().dateAdded);
+   	console.log(snapshot.val().title);
+    console.log(snapshot.val().locale);
+   	console.log(snapshot.val().schedule);
+    console.log(snapshot.val().frequency);
+    console.log(snapshot.val().dateAdded);
+
+    $("#train > tbody").append("<tr><td>" + newPost.title + "</td><td>" + newPost.locale + "</td><td>" +
+  	newPost.frequency + "</td><td>" + newPost.military + "</td><td>" 
+  	//use this to add the calculated minutes away from the present time
+	// + empRate + "</td><td>" + empBilled + "</td></tr>"
+	);
+
+
 });
 
 
