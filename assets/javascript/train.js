@@ -12,14 +12,10 @@
   };
   firebase.initializeApp(config);
 
+ 	var database = firebase.database();
 
-  	var database = firebase.database();
+   	var userRef = database.ref("/new-train");
 
-  	var userRef = database.ref("/new-train");
-	var train= $("#train-input").val().trim();
-    var destination = $("#destination-input").val().trim();
-    var military = $("#military-input").val().trim();
-    var interval = $("#interval-input").val().trim();
 
      // Capture Button Click
     $("#add-train").on("click", function() {
@@ -27,6 +23,10 @@
       event.preventDefault();
 
 
+	var train= $("#train-input").val().trim();
+    var destination = $("#destination-input").val().trim();
+    var military = $("#military-input").val().trim();
+    var interval = $("#interval-input").val().trim();
       // Code in the logic for storing and retrieving the most recent train.
       
 
@@ -37,8 +37,9 @@
         frequency: interval,
         dateAdded: firebase.database.ServerValue.TIMESTAMP
       };
-
+      console.log(data);
       userRef.push(data);
+
     });
 
     // $("#add-train").on("click", function(snapshot) {
@@ -55,7 +56,7 @@
 userRef.on("child_added", function(snapshot, prevChildKey) {
   var newPost = snapshot.val();
   console.log(snapshot.val());
-  console.log("Title: " + newPost.title);
+  console.log("Name: " + newPost.title);
   console.log("Headed to: " + newPost.locale);
   console.log("Beginning at: " + newPost.military);
   console.log("Departing every: " + newPost.frequency);
