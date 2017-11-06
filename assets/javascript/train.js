@@ -3,7 +3,7 @@
 //make sure to set an interval that will refresh the "minutes until next train" that refreshes every one minute or so
 
 //make train schedules disappear when they are deleted from the Firebase database
-
+//make buttons for each train by name, populate the table with their data when the button is clicked.
 // ### Bonus (Extra Challenges)
 
 // * Consider updating your "minutes to arrival" and "next train time" text once every minute. This is significantly more challenging; only attempt this if you've completed the actual activity and committed it somewhere on GitHub for safekeeping (and maybe create a second GitHub repo).
@@ -66,14 +66,21 @@ userRef.on("child_added", function(snapshot, prevChildKey) {
   console.log("Departing every: " + newPost.frequency);
   console.log("Train Schedule added on: " + newPost.dateAdded);
   console.log("Previous Post ID: " + prevChildKey);
+  // ok this all seems o.k.
 
-
-    // Assumptions
-    var randomDate = newPost.military;
-    var randomFormat = "HH:mm";
-    var convertedDate = moment(randomDate, randomFormat);
+    var trainStart = newPost.military;
+    var milTime = "HH:mm";
+    var convertedDate = moment(trainStart, milTime);
  //    var trainInit = newPost.military;
 	// var s = m.toISOString();
+    console.log(convertedDate);
+
+    var dateString = trainStart;
+    console.log(trainStart);
+
+    var momentObj = moment(dateString, "HH:mm");
+    var momentString = momentObj.format("HH:mm");
+    console.log("this is the train start time: " + momentString);
 
     var tFrequency = newPost.frequency;
 
@@ -92,7 +99,7 @@ userRef.on("child_added", function(snapshot, prevChildKey) {
     console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
 
     // Difference between the times
-    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    var diffTime = moment().diff(moment(convertedDate), "minutes");
     console.log("DIFFERENCE IN TIME: " + diffTime);
 
     // Time apart (remainder)
