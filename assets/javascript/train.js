@@ -36,7 +36,7 @@
 
     var train= $("#train-input").val().trim();
     var destination = $("#destination-input").val().trim();
-    var military = moment($("#military-input").val().trim(),"HH:mm").format("x");
+    var military = moment($("#military-input").val().trim(),"HH:mm").subtract(10,"years").format("X");
     var interval = $("#interval-input").val().trim();
       // Code in the logic for storing and retrieving the most recent train.
       // passing firebase an object, formatted to our liking, with the train's information
@@ -60,41 +60,65 @@
 // // Retrieve new posts as they are added to our database
 
 userRef.on("child_added", function(snapshot, prevChildKey) { 
+  // // ----------
+  // // before video
   var newPost = snapshot.val();
-  var present = parseInt(moment().valueOf());
-  console.log(present);
-  //parse unix code into hours and minutes to display first train
+  // var present = parseInt(moment().valueOf());
+  // console.log(present);
+  // //parse unix code into hours and minutes to display first train
   var startTime = parseInt(newPost.start);  
   console.log(startTime);
   var numStart = moment(startTime).format("HH:mm");
   console.log(numStart);
-  //now we're working with numbers!
-  var trainInit = moment(newPost.dataAdded).format();
-  console.log(trainInit);
+  // //now we're working with numbers!
+  // var trainInit = moment(newPost.dataAdded).format();
+  // console.log(trainInit);
+  // var milliFrequency = newPost.frequency / 60000;
+  // var milliRemainder = (present - startTime) % milliFrequency;
+  // console.log(milliRemainder);
+  // var remainder = milliRemainder * 60000;
+  // console.log(remainder);
+  // var minutes = newPost.frequency - milliRemainder;
+  // console.log(minutes);
+  // console.log("Name: " + newPost.title);
+  // console.log("Headed to: " + newPost.locale);
+  // console.log("Beginning at: " + numStart);
+  // console.log("Departing every: " + newPost.frequency);
+  //   //a firebase-returned value, also displayed in UNIX Epoch
+  // console.log("Train Schedule added on: " + newPost.dateAdded);
+  // var milliArrival = (startTime % milliFrequency) * 60000;
+  // console.log(milliArrival); 
+  // var arrival = moment().add(milliArrival,"m").format("hh:mm A");
+  // //end before video
+  // // ---------------
+  var name = newPost.title;
+  var destination = newPost.locale;
+  var frequency = newPost.frequency;
+  var firstTrain = newPost.start;
 
-  //name of train 
-  console.log("Name: " + newPost.title);
-  //train's destination
-  console.log("Headed to: " + newPost.locale);
-  //first instance of train
-  console.log("Beginning at: " + numStart);
-  //frequency of train departures
-  console.log("Departing every: " + newPost.frequency);
-  //a firebase-returned value, also displayed in UNIX Epoch
-  console.log("Train Schedule added on: " + newPost.dateAdded);
+  var remainder = moment().diff(moment.unix(firstTrain), "minutes")%frequency;
+  var minutes = frequency - remainder;
+  var arrival = moment().add(minutes,"m").format("hh:mm A");
+  console.log(remainder);
+  console.log(minutes);
+  console.log(arrival);
+
+
+// DOM Manipulation, specifically, creating new table rows and data cells that display the Train object's values from Firebase
+    $("#train > tbody").append("<tr><td>" + name + "</td><td>" + destination + "</td><td>" +
+    frequency + "</td><td>" + arrival + "</td><td>" + minutes + "</td></tr>");
+});
+
   //interesting to know how firebase references input but not needed in this project
   // console.log("Previous Post ID: " + prevChildKey);
+ 
 
-  var remainder = (present - startTime) % newPost.frequency;
-  console.log(remainder);
-  //NaN, presently
+// arrival needs to be a set figure, now it varies with each refresh as "present" is decided and used to figure the arrival time. the next train should be set to the cycle of its frequency, now it is equal to something crazy. The next train is always the duration from "present".
+//turn into minutes with momentjs the remainder from dividing the start time with the frequency
+ 
 
-  var minutes = newPost.frequency - remainder;
-  var arrival = moment().add(minutes,"m").format("hh:mm A");
-// DOM Manipulation, specifically, creating new table rows and data cells that display the Train object's values from Firebase
-    $("#train > tbody").append("<tr><td>" + newPost.title + "</td><td>" + newPost.locale + "</td><td>" +
-    newPost.frequency + "</td><td>" + arrival + "</td><td>" + minutes + "</td></tr>");
-});
+
+
 
 
  //    var trainStart = newPost.start;
