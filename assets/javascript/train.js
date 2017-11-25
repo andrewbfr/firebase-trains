@@ -61,7 +61,7 @@
 
 userRef.on("child_added", function(snapshot, prevChildKey) { 
   var newPost = snapshot.val();
-  var present = moment().valueOf();
+  var present = parseInt(moment().valueOf());
   console.log(present);
   //parse unix code into hours and minutes to display first train
   var startTime = parseInt(newPost.start);  
@@ -85,12 +85,15 @@ userRef.on("child_added", function(snapshot, prevChildKey) {
   //interesting to know how firebase references input but not needed in this project
   // console.log("Previous Post ID: " + prevChildKey);
 
-  var remainder = numStart % newPost.frequency;
+  var remainder = (present - startTime) % newPost.frequency;
+  console.log(remainder);
+  //NaN, presently
+
   var minutes = newPost.frequency - remainder;
   var arrival = moment().add(minutes,"m").format("hh:mm A");
 // DOM Manipulation, specifically, creating new table rows and data cells that display the Train object's values from Firebase
     $("#train > tbody").append("<tr><td>" + newPost.title + "</td><td>" + newPost.locale + "</td><td>" +
-    newPost.frequency + "</td><td>" + arrival + "</td><td>" + remainder + "</td></tr>");
+    newPost.frequency + "</td><td>" + arrival + "</td><td>" + minutes + "</td></tr>");
 });
 
 
