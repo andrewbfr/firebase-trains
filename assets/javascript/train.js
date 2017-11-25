@@ -25,109 +25,139 @@
 
  	var database = firebase.database();
 
-   	var userRef = database.ref("/new-train");
+  var userRef = database.ref("/new-train");
 
 
      // Capture Button Click
-    $("#add-train").on("click", function() {
+  $("#add-train").on("click", function() {
       // Don't refresh the page!
       event.preventDefault();
 
 
-	var train= $("#train-input").val().trim();
+    var train= $("#train-input").val().trim();
     var destination = $("#destination-input").val().trim();
-    var military = $("#military-input").val().trim();
+    var military = moment($("#military-input").val().trim(),"HH:mm").format("x");
     var interval = $("#interval-input").val().trim();
       // Code in the logic for storing and retrieving the most recent train.
+      // passing firebase an object, formatted to our liking, with the train's information
       
 
-      var data = {
+    var data = {
         title: train,
         locale: destination,
-        schedule: military,
+        start: military,
         frequency: interval,
         dateAdded: firebase.database.ServerValue.TIMESTAMP
       };
       console.log(data);
       userRef.push(data);
 
-    });
+  });
 
+// var dateString = moment.unix(value).format("MM/DD/YYYY");
 
 
 // // Retrieve new posts as they are added to our database
 
 userRef.on("child_added", function(snapshot, prevChildKey) { 
   var newPost = snapshot.val();
-  console.log(snapshot.val());
+  var present = moment().valueOf();
+  console.log(present);
+  //parse unix code into hours and minutes to display first train
+  var startTime = parseInt(newPost.start);  
+  console.log(startTime);
+  var numStart = moment(startTime).format("HH:mm");
+  console.log(numStart);
+  //now we're working with numbers!
+  var trainInit = moment(newPost.dataAdded).format();
+  console.log(trainInit);
+
+  //name of train 
   console.log("Name: " + newPost.title);
+  //train's destination
   console.log("Headed to: " + newPost.locale);
-  console.log("Beginning at: " + newPost.military);
+  //first instance of train
+  console.log("Beginning at: " + numStart);
+  //frequency of train departures
   console.log("Departing every: " + newPost.frequency);
+  //a firebase-returned value, also displayed in UNIX Epoch
   console.log("Train Schedule added on: " + newPost.dateAdded);
-  console.log("Previous Post ID: " + prevChildKey);
-  // ok this all seems o.k.
+  //interesting to know how firebase references input but not needed in this project
+  // console.log("Previous Post ID: " + prevChildKey);
 
-    var trainStart = newPost.military;
-    var milTime = "HH:mm";
-    var convertedDate = moment(trainStart, milTime);
- //    var trainInit = newPost.military;
-	// var s = m.toISOString();
-    console.log(convertedDate);
+  var remainder = numStart % newPost.frequency;
+  var minutes = newPost.frequency - remainder;
+  var arrival = moment().add(minutes,"m").format("hh:mm A");
+// DOM Manipulation, specifically, creating new table rows and data cells that display the Train object's values from Firebase
+    $("#train > tbody").append("<tr><td>" + newPost.title + "</td><td>" + newPost.locale + "</td><td>" +
+    newPost.frequency + "</td><td>" + arrival + "</td><td>" + remainder + "</td></tr>");
+});
 
-    var dateString = trainStart;
-    console.log(trainStart);
 
-    var momentObj = moment(dateString, "HH:mm");
-    var momentString = momentObj.format("HH:mm");
-    console.log("this is the train start time: " + momentString);
+ //    var trainStart = newPost.start;
+ //    var milTime = "HH:mm";
+ //    var convertedDate = moment(trainStart, milTime);
+ // //    var trainInit = newPost.military;
+	// // var s = m.toISOString();
+ //    console.log(convertedDate);
 
-    var tFrequency = newPost.frequency;
+ //    var dateString = trainStart;
+ //    console.log(trainStart);
 
-    console.log(tFrequency);
+    // for loop to display the start, next train and minutes until in the correct tables
+    // for (var i = 0; i > ; i++){
 
-    // Time is 3:30 AM
-    var firstTime = convertedDate;
-    console.log(firstTime);
+    // }
 
-    // First Time (pushed back 1 year to make sure it comes before current time)
-    var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-    console.log(firstTimeConverted);
+    //i have the string defining the start time. The start time needs to be converted into a code that moment.js understands. The string may be derived from the Firebase data object. then it is run through the math and displayed as "next train" and displays the number of minutes until the next arrival. right now "next arrival" is just displaying the current time.
 
-    // Current Time
-    var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
 
-    // Difference between the times
-    var diffTime = moment().diff(moment(convertedDate), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
+    // var momentObj = moment(dateString, "HH:mm");
+    // var momentString = momentObj.format("HH:mm");
+    // console.log("this is the train start time: " + momentString);
 
-    // Time apart (remainder)
-    var tRemainder = diffTime % tFrequency;
-    console.log(tRemainder);
+    // var tFrequency = newPost.frequency;
 
-    // Minute Until Train
-    var tMinutesTillTrain = tFrequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+    // console.log(tFrequency);
 
-    // Next Train
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm"));
+    // // Time is 3:30 AM
+    // var firstTime = convertedDate;
+    // console.log(firstTime);
+
+    // // First Time (pushed back 1 year to make sure it comes before current time)
+    // var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
+    // console.log(firstTimeConverted);
+
+    // // Current Time
+    // var currentTime = moment();
+    // console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
+
+    // // Difference between the times
+    // var diffTime = moment().diff(moment(convertedDate), "minutes");
+    // console.log("DIFFERENCE IN TIME: " + diffTime);
+
+    // // Time apart (remainder)
+    // var tRemainder = diffTime % tFrequency;
+    // console.log(tRemainder);
+
+    // // Minute Until Train
+    // var tMinutesTillTrain = tFrequency - tRemainder;
+    // console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+    // // Next Train
+    // var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    // console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm"));
 
 
     //need to display Next Arrival time and Minutes away from current moment
 
-    // DOM Manipulation, specifically, creating new table rows and data cells that display the Train object's values from Firebase
-    $("#train > tbody").append("<tr><td>" + newPost.title + "</td><td>" + newPost.locale + "</td><td>" +
-  	newPost.frequency + "</td><td>" + moment(nextTrain).format("HH:mm") + "</td><td>" + tMinutesTillTrain + "</td></tr>"
-  	);
 
-  	//use this to add the calculated minutes away from the present time
-	// <td>" + empRate + "</td><td>" + empBilled + "</td>
+
+    
+  	
 
 
 
-});
 
 
 
